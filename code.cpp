@@ -101,12 +101,12 @@ int main()
 	vector <vector<int>> allocation;
 	//Getting input from user 
 	string filename;
-	// cout<<"File name : ";
-	// getline(cin,filename);
+	cout<<"File name : ";
+	getline(cin,filename);
 
 	//Reading user file
 	ifstream textfile;
-	textfile.open("textfile.txt");
+	textfile.open(filename);
 	if (textfile.is_open()){
 		string line;
 		while(getline(textfile, line))
