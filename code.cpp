@@ -176,7 +176,7 @@ int main()
 	if (request.empty()){
 		cout<<"Since the vector could be completely reduced. NO DEADLOCK!!\n";
 	}else{
-		cout<<"Since the vector could be completely reduced. YES DEADLOCK!!\n";
+		cout<<"Since the vector could not be completely reduced. YES DEADLOCK!!\n";
 	}
 	
 	textfile.close();
