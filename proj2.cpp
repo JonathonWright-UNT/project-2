@@ -167,8 +167,10 @@ int main()
 	request=request_vector(total_matrix, process, resource);
 	allocation=allocation_vector(total_matrix, process, resource);
 	
-	print_matrix(request);
+	cout<<"request matrix\n";
+        print_matrix(request);
 	cout<<endl;
+ 	cout<<"allocation matrix\n";
 	print_matrix(allocation);
 	cout<<endl;
 
