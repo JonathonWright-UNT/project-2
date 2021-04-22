@@ -21,7 +21,7 @@ vector<vector<int>> request_vector(vector<vector<int>> total_matrix, int i, int 
 	vector<vector<int>> vect;
 	for (int x=0;x<i;x++){
 		vector<int> temp;
-		for (int y=j;y<total_matrix[x].size();y++){
+		for (int y=i;y<total_matrix[x].size();y++){
 			temp.push_back(total_matrix[x][y]);
 		}
 		vect.push_back(temp);
