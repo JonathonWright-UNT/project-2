@@ -3,8 +3,8 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <vector>
 using namespace std;
@@ -22,7 +22,7 @@ vector<vector<int>> request_vector(vector<vector<int>> total_matrix, int i, int 
 	vector<vector<int>> vect;
 	for (int x=0;x<i;x++){
 		vector<int> temp;
-		for (int y=j;y<total_matrix[x].size();y++){
+		for (int y=i;y<total_matrix[x].size();y++){
 			temp.push_back(total_matrix[x][y]);
 		}
 		vect.push_back(temp);
@@ -60,10 +60,14 @@ void change_request(vector<vector<int>> &request, vector<vector<int>> &allocatio
 			}
 		}
 	}
+    /* DEBUG
 	cout<<"In change request\n";
+	cout<<"request\n";
 	print_matrix(request);
 	cout<<"---\n";
+	cout<<"allocation\n";
 	print_matrix(allocation);
+    */
 
 }
 
@@ -77,13 +81,15 @@ void check_deadlock(vector<vector<int>> &request, vector<vector<int>> &allocatio
 			if (j==request[i].size()-1){
 				if (row_sum==0){
 					change_request(request, allocation, i);
-					//request[i].clear();
 					request.erase(request.begin() + i);
 					allocation.erase(allocation.begin() + i);
+
+                    /* DEBUG
 					cout<<"In check_deadlock\n";
 					print_matrix(request);
 					cout<<"---\n";
 					print_matrix(allocation);
+                    */
 					check_deadlock(request, allocation);
 				}
 			}
@@ -101,15 +107,22 @@ int main()
 	vector <vector<int>> request;
 	vector <vector<int>> allocation;
 	//Getting input from user 
-
 	string filename;
 	cout<<"File name : ";
-	cin >> filename;
+    //cin >> filename;
+    getline(cin, filename);
+
+    while(filename.empty())
+    {
+        cout<<"Please provide input file: \n";
+        getline(cin, filename);
+    }
 
 	//Reading user file
 	ifstream textfile;
 	textfile.open(filename);
-	if (textfile.is_open()){
+	if (textfile.is_open())
+    {
 		string line;
 		while(getline(textfile, line))
 		{
@@ -163,14 +176,19 @@ int main()
 			}
 		}
 	}
+    else
+    {
+        cout<<"ERROR: Unable to locate " <<"'"<< filename<<"'"<< "\n";
+        exit(0);
+    }
 
 	request=request_vector(total_matrix, process, resource);
 	allocation=allocation_vector(total_matrix, process, resource);
 	
 	cout<<"request matrix\n";
-        print_matrix(request);
+	print_matrix(request);
 	cout<<endl;
- 	cout<<"allocation matrix\n";
+	cout<<"allocation matrix\n";
 	print_matrix(allocation);
 	cout<<endl;
 
@@ -184,4 +202,6 @@ int main()
 	}
 	
 	textfile.close();
+
 }
+
