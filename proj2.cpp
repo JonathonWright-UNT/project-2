@@ -18,6 +18,7 @@ void print_matrix(vector<vector<int>> vect){
 	}
 }
 
+//creates request matrix
 vector<vector<int>> request_vector(vector<vector<int>> total_matrix, int i, int j){
 	vector<vector<int>> vect;
 	for (int x=0;x<i;x++){
@@ -30,6 +31,7 @@ vector<vector<int>> request_vector(vector<vector<int>> total_matrix, int i, int 
 	return vect;
 }
 
+//creates allocation matrix
 vector<vector<int>> allocation_vector(vector<vector<int>> total_matrix, int i, int j)
 {
 	vector<vector<int>> vect;
@@ -49,6 +51,7 @@ vector<vector<int>> allocation_vector(vector<vector<int>> total_matrix, int i, i
 	return vect1;
 }
 
+//updates the request matrix if no deadlock is detected and reduces resources from allocation matrix
 void change_request(vector<vector<int>> &request, vector<vector<int>> &allocation, int row){
 	//cout<<row<<endl;
 	for (int i=0;i<request.size();i++){
@@ -71,25 +74,31 @@ void change_request(vector<vector<int>> &request, vector<vector<int>> &allocatio
 
 }
 
-
+//checks for deadlock state
 void check_deadlock(vector<vector<int>> &request, vector<vector<int>> &allocation)
 {
 	for (int i=0;i<request.size();i++){
+		//row_sum represents the sum of an entire row
+		//sum of zero indicates a process that has no outgoing requests
 		int row_sum=0;
 		for (int j=0;j<request[i].size();j++){
 			row_sum+=request[i][j];
+			//checks if at the end element of a row
 			if (j==request[i].size()-1){
+				//true==process has no outgoing requests==process reduction
 				if (row_sum==0){
 					change_request(request, allocation, i);
+					//reduce row
 					request.erase(request.begin() + i);
 					allocation.erase(allocation.begin() + i);
 
                     /* DEBUG
-					cout<<"In check_deadlock\n";
-					print_matrix(request);
-					cout<<"---\n";
-					print_matrix(allocation);
+			cout<<"In check_deadlock\n";
+			print_matrix(request);
+			cout<<"---\n";
+			print_matrix(allocation);
                     */
+					//start over
 					check_deadlock(request, allocation);
 				}
 			}
